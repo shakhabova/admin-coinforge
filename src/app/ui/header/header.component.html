@@ -1,0 +1,104 @@
+<div class="header">
+  <div class="header-wrapper">
+    <div class="header__logo">
+      @if (configService.isMobile()) {
+        <div class="mobile-menu-toggle u-mar-right-8">
+          @if (!isMobileMenuOpened()) {
+            <tui-icon icon="@tui.menu" (click)="mobileMenuToggle()"></tui-icon>
+          } @else {
+            <tui-icon icon="@tui.x" (click)="mobileMenuToggle()"></tui-icon>
+          }
+        </div>
+      }
+      <a routerLink="/home-page">
+        <img
+          src="/assets/icons/logo.svg"
+          alt="Coinforge Logo"
+          class="logo-img"
+        />
+      </a>
+    </div>
+    @if (!configService.isMobile()) {
+      <nav class="header__nav">
+        <!-- @for (link of activeLinks(); track link.label) { -->
+        <!--   <a -->
+        <!--     [routerLink]="link.routerLink" -->
+        <!--     routerLinkActive="active" -->
+        <!--     class="nav-link" -->
+        <!--   > -->
+        <!--     @if (link.icon) { -->
+        <!--       <img [src]="link.icon" [alt]="link.label" class="nav-icon" /> -->
+        <!--     } -->
+        <!--     {{ link.label }} -->
+        <!--   </a> -->
+        <!-- } -->
+        <a class="nav-link">
+          <img src="/assets/icons/Dashboard.svg" class="nav-icon" />
+          Dashboard
+        </a>
+        <a class="nav-link">
+          <img src="/assets/icons/Wallet.svg" class="nav-icon" />
+          Wallets
+        </a>
+        <a routerLink="/users" class="nav-link" routerLinkActive="active">
+          <tui-icon icon="@tui.users" class="nav-icon nav-tui-icon" />
+          Users
+        </a>
+        <a class="nav-link">
+          <img src="/assets/icons/Transactions.svg" class="nav-icon" />
+          Transactions
+        </a>
+      </nav>
+    }
+
+    <div class="header__profile">
+      <button class="profile-icon" (click)="openUserProfile()">
+        {{ abbreviate$ | async }}
+      </button>
+    </div>
+  </div>
+</div>
+
+@if (isMobileMenuOpened()) {
+  <div class="mobile-menu-backdrop" (click)="isMobileMenuOpened.set(false)">
+    <div class="mobile-menu-wrapper">
+      <nav class="mobile-nav">
+        <a class="mobile-nav-link h6-heading">
+          <img src="/assets/icons/Dashboard.svg" class="mobile-nav-icon" />
+          Dashboard
+        </a>
+        <a class="mobile-nav-link h6-heading">
+          <img src="/assets/icons/Wallet.svg" class="mobile-nav-icon" />
+          Wallets
+        </a>
+        <a
+          routerLink="/users"
+          class="mobile-nav-link h6-heading"
+          routerLinkActive="active"
+        >
+          Users
+        </a>
+        <a class="mobile-nav-link h6-heading">
+          <img src="/assets/icons/Transactions.svg" class="mobile-nav-icon" />
+          Transactions
+        </a>
+        <!-- @for (link of activeLinks(); track link.routerLink) { -->
+        <!--   <a -->
+        <!--     [routerLink]="link.routerLink" -->
+        <!--     routerLinkActive="active" -->
+        <!--     class="mobile-nav-link h6-heading" -->
+        <!--   > -->
+        <!--     @if (link.icon) { -->
+        <!--       <img -->
+        <!--         [src]="link.icon" -->
+        <!--         [alt]="link.label" -->
+        <!--         class="mobile-nav-icon" -->
+        <!--       /> -->
+        <!--     } -->
+        <!--     {{ link.label }} -->
+        <!--   </a> -->
+        <!-- } -->
+      </nav>
+    </div>
+  </div>
+}

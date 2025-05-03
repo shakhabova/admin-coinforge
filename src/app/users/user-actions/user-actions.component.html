@@ -1,0 +1,78 @@
+<button
+  class="more-button"
+  appearance="secondary-grayscale"
+  iconStart="@tui.ellipsis-vertical"
+  size="m"
+  tuiIconButton
+  type="button"
+  [style.border-radius.%]="100"
+  [tuiAppearanceState]="open ? 'active' : null"
+  [tuiDropdown]="dropdown"
+  [tuiDropdownSided]="true"
+  [(tuiDropdownOpen)]="open"
+  (click)="$event.stopPropagation()"
+>
+  More
+</button>
+
+<ng-template #dropdown let-close>
+  <tui-data-list>
+    @if (user().status === "ACTIVE") {
+      <button
+        tuiOption
+        type="button"
+        (click)="blockUser(); close()"
+        class="user-option"
+      >
+        <tui-icon icon="@tui.lock-keyhole"></tui-icon>
+        Block user
+      </button>
+    } @else if (user().status === "BLOCKED") {
+      <button
+        tuiOption
+        type="button"
+        (click)="unblockUser(); close()"
+        class="user-option"
+      >
+        <tui-icon icon="@tui.lock-keyhole-open"></tui-icon>
+        Unblock user
+      </button>
+    }
+
+    @if (user().status === "EMAIL_NOT_CONFIRMED") {
+      <button
+        tuiOption
+        type="button"
+        (click)="resendOtp(); close()"
+        class="user-option"
+      >
+        <tui-icon icon="@tui.refresh-cw"></tui-icon>
+        Resend OTP
+      </button>
+    }
+
+    @if (user().status === "PENDING") {
+      <button
+        tuiOption
+        type="button"
+        (click)="deactivate(); close()"
+        class="user-option"
+      >
+        <tui-icon icon="@tui.ban"></tui-icon>
+        Reject user
+      </button>
+    }
+
+    @if (user().status !== "PENDING") {
+      <button
+        tuiOption
+        type="button"
+        (click)="deactivate(); close()"
+        class="user-option"
+      >
+        <tui-icon icon="@tui.ban"></tui-icon>
+        Deactivate user
+      </button>
+    }
+  </tui-data-list>
+</ng-template>

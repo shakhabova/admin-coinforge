@@ -1,0 +1,33 @@
+@use "assets/styles/colors";
+@use "assets/fonts/fonts";
+@use "assets/styles/typography";
+@use "assets/styles/button";
+@use "assets/styles/utils";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--Primary-text-color, #272828);
+
+  --tui-background-base: #f7f7fb;
+  --tui-font-text-s: normal 400 14px/21px "Switzer-Variable";
+  --tui-font-h6-heading: normal 600 16px/21px "Switzer-Variable";
+
+  --app-header-height: 72px;
+}
+html,
+body {
+  height: 100%;
+}
+
+.t-root-content {
+  height: 100dvh;
+}
+
+[tuiWrapper][data-appearance="textfield"],
+[tuiAppearance][data-appearance="textfield"] {
+  box-shadow: unset;
+}
