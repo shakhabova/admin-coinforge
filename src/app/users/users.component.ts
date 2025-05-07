@@ -55,9 +55,15 @@ export class UsersComponent implements OnInit {
     'actions',
   ];
   protected users = signal<UserInfoDto[]>([]);
+  pagedUsers = computed(() =>
+    this.users().slice(
+      this.pageSize * this.page(),
+      this.pageSize * this.page() + this.pageSize,
+    ),
+  );
 
   protected totalElements = signal(0);
-  readonly pageSize = 10;
+  readonly pageSize = 5;
   page = signal(0);
 
   filters = signal(null);
@@ -79,8 +85,11 @@ export class UsersComponent implements OnInit {
   onPageChange(state: PaginatorState): void {
     if (state.page != null && state.page !== this.page()) {
       this.page.set(state.page);
-      this.loadUsers();
     }
+  }
+
+  onUserUpdate() {
+    this.loadUsers();
   }
 
   private loadUsers() {
@@ -93,7 +102,11 @@ export class UsersComponent implements OnInit {
         finalize(() => this.isLoading.set(false)),
       )
       .subscribe({
-        next: (users) => this.users.set(users),
+        next: (users) => {
+          this.users.set(users);
+          this.page.set(0);
+          this.totalElements.set(users.length);
+        },
         error: (err) => {
           this.hasError.set(true);
           console.error(err);
