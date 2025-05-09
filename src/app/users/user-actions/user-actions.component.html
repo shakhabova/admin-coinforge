@@ -61,6 +61,15 @@
         <tui-icon icon="@tui.ban"></tui-icon>
         Reject user
       </button>
+      <button
+        tuiOption
+        type="button"
+        (click)="activate(); close()"
+        class="user-option"
+      >
+        <tui-icon icon="@tui.user-check"></tui-icon>
+        Activate user
+      </button>
     }
 
     @if (user().status !== "PENDING") {

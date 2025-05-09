@@ -116,6 +116,16 @@ export class UserService {
     );
   }
 
+  activateUser(userId: number): Observable<void> {
+    return this.httpClient.put<void>(
+      `${this.configService.serverUrl}/v1/users/status`,
+      {
+        userIds: [userId],
+        status: 'ACTIVE',
+      },
+    );
+  }
+
   deactivateUser(userId: number): Observable<void> {
     return this.httpClient.put<void>(
       `${this.configService.serverUrl}/v1/users/status`,
