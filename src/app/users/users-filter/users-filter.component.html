@@ -1,0 +1,71 @@
+<div class="h4-heading u-mar-bottom-32">Filter</div>
+
+<ng-container [formGroup]="formGroup">
+  <div class="u-row-middle u-g-24 u-mar-bottom-24">
+    <tui-input-date
+      formControlName="dateFrom"
+      class="u-flex-grow-1"
+      tuiTextfieldSize="m"
+    >
+      User created From
+    </tui-input-date>
+
+    <tui-input-date
+      formControlName="dateTo"
+      class="u-flex-grow-1"
+      tuiTextfieldSize="m"
+    >
+      User created To
+    </tui-input-date>
+  </div>
+
+  <tui-input formControlName="customerId" tuiTextfieldSize="m">
+    Customer ID
+    <input tuiTextfieldLegacy />
+  </tui-input>
+
+  <tui-input formControlName="firstName" tuiTextfieldSize="m">
+    First Name
+    <input tuiTextfieldLegacy />
+  </tui-input>
+
+  <tui-input formControlName="lastName" tuiTextfieldSize="m">
+    Last Name
+    <input tuiTextfieldLegacy />
+  </tui-input>
+
+  <tui-input formControlName="email" tuiTextfieldSize="m">
+    Email
+    <input tuiTextfieldLegacy type="email" inputmode="email" />
+  </tui-input>
+  <tui-error [error]="[] | tuiFieldError | async" formControlName="email" />
+
+  <tui-input formControlName="country" tuiTextfieldSize="m">
+    Country
+    <input tuiTextfieldLegacy />
+  </tui-input>
+
+  <tui-input formControlName="city" tuiTextfieldSize="m">
+    City
+    <input tuiTextfieldLegacy />
+  </tui-input>
+
+  <tui-select
+    tuiTextfieldSize="m"
+    formControlName="status"
+    [tuiTextfieldCleaner]="true"
+  >
+    Status
+    <input tuiTextfieldLegacy />
+    <tui-data-list-wrapper *tuiDataList [items]="statuses" />
+  </tui-select>
+
+  <button
+    class="button primary m u-mar-top-32 u-mar-bottom-16"
+    (click)="onApply()"
+    [disabled]="formGroup.pristine"
+  >
+    Apply
+  </button>
+  <button class="button secondary m" (click)="onClear()">Clear</button>
+</ng-container>

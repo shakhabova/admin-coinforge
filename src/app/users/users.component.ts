@@ -1,4 +1,5 @@
-import { DatePipe } from '@angular/common';
+import * as R from 'remeda';
+import { DatePipe, formatDate } from '@angular/common';
 import { PaginatorModule, type PaginatorState } from 'primeng/paginator';
 import {
   Component,
@@ -9,17 +10,23 @@ import {
   signal,
 } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TuiButton, TuiIcon } from '@taiga-ui/core';
+import { TuiButton, tuiDialog, TuiIcon } from '@taiga-ui/core';
 import { LoaderComponent } from 'ui/loader/loader.component';
 import { TuiTable } from '@taiga-ui/addon-table';
 import { EmptyDisplayComponent } from 'ui/empty-display/empty-display.component';
 import { ErrorDisplayComponent } from 'ui/error-display/error-display.component';
-import { UserInfoDto, UserService } from 'shared/user.service';
+import { UserInfoDto, UserService, UsersFilterDto } from 'shared/user.service';
 import { UserStatusChipComponent } from './user-status-chip/user-status-chip.component';
 import { UserActionsComponent } from './user-actions/user-actions.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DialogService } from 'shared/dialog.service';
 import { finalize } from 'rxjs';
+import {
+  UsersFilterComponent,
+  UsersFilterModel,
+} from './users-filter/users-filter.component';
+import { TuiDay } from '@taiga-ui/cdk';
+import { explicitEffect } from 'ngxtension/explicit-effect';
 
 @Component({
   selector: 'app-users',
@@ -44,6 +51,8 @@ export class UsersComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   private usersService = inject(UserService);
 
+  private filtersDialog = tuiDialog(UsersFilterComponent);
+
   protected columns = [
     'id',
     'customerId',
@@ -63,10 +72,10 @@ export class UsersComponent implements OnInit {
   );
 
   protected totalElements = signal(0);
-  readonly pageSize = 5;
+  readonly pageSize = 10;
   page = signal(0);
 
-  filters = signal(null);
+  filters = signal<UsersFilterModel | null>(null);
   hasFilters = computed(() => !!this.filters());
 
   isLoading = signal(false);
@@ -76,11 +85,19 @@ export class UsersComponent implements OnInit {
     () => !this.isLoading() && !this.users()?.length && !this.hasError(),
   );
 
+  constructor() {
+    explicitEffect([this.filters], () => this.loadUsers());
+  }
+
   ngOnInit() {
     this.loadUsers();
   }
 
-  openFilters() {}
+  openFilters() {
+    this.filtersDialog(this.filters()).subscribe((filters) =>
+      this.filters.set(filters),
+    );
+  }
 
   onPageChange(state: PaginatorState): void {
     if (state.page != null && state.page !== this.page()) {
@@ -95,8 +112,23 @@ export class UsersComponent implements OnInit {
   private loadUsers() {
     this.isLoading.set(true);
     this.hasError.set(false);
+    const params: UsersFilterDto = R.pipe(
+      R.entries(this.filters() ?? {}),
+      R.filter((entry) => !!entry[1]),
+      R.map(([key, value]) => {
+        if (value instanceof TuiDay) {
+          return [
+            key,
+            formatDate(value.toLocalNativeDate(), 'yyyy-MM-dd', 'en-US'),
+          ] as [string, string];
+        }
+
+        return [key, value] as const;
+      }),
+      R.fromEntries(),
+    );
     this.usersService
-      .getAll()
+      .getAll(params as Required<UsersFilterDto>)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         finalize(() => this.isLoading.set(false)),

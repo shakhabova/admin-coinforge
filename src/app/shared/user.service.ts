@@ -32,6 +32,18 @@ export type UserStatus =
 
 export type MfaStatus = 'REJECTED' | 'PENDING' | 'ACTIVATED';
 
+export interface UsersFilterDto {
+  dateFrom?: string;
+  dateTo?: string;
+  customerId?: string;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  country?: string;
+  city?: string;
+  status?: UserStatus;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -48,9 +60,10 @@ export class UserService {
     this.updateCurrentUser();
   }
 
-  getAll(): Observable<UserInfoDto[]> {
+  getAll(filters: Required<UsersFilterDto>): Observable<UserInfoDto[]> {
     return this.httpClient.get<UserInfoDto[]>(
       `${this.configService.serverUrl}/v1/users/all`,
+      { params: filters },
     );
   }
 

@@ -1,5 +1,5 @@
 <div class="header">
-  <div class="h3-heading">users</div>
+  <div class="h3-heading">Users</div>
 
   <div class="header-actions"></div>
 </div>
@@ -109,13 +109,11 @@
 }
 
 @if (displayEmpty()) {
-  <app-empty-display
-    text="No users in your history? Your transaction history can be made today."
-  ></app-empty-display>
+  <!-- TODO fix text -->
+  <app-empty-display text="No users found."></app-empty-display>
 }
 
 @if (displayError()) {
-  <app-error-display
-    text="Something went wrong while trying to load your users."
-  />
+  <!-- TODO fix text -->
+  <app-error-display text="Something went wrong while trying to load users." />
 }

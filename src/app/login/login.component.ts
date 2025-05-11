@@ -75,6 +75,16 @@ export class LoginComponent {
       .subscribe({
         next: (response) => {
           // this.authorize(response);
+          if (response.role !== 'ADMIN') {
+            this.dialogService
+              .showInfo({
+                type: 'error',
+                title: 'Error',
+                text: 'The specified user could not be found.',
+              })
+              .subscribe();
+            return;
+          }
 
           if (response.userStatus === 'FORCE_PASSWORD_CHANGE') {
             this.forceChangePass(email);
