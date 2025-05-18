@@ -74,25 +74,12 @@ export class LoginComponent {
       )
       .subscribe({
         next: (response) => {
-          // this.authorize(response);
-          if (response.role !== 'ADMIN') {
-            this.dialogService
-              .showInfo({
-                type: 'error',
-                title: 'Error',
-                text: 'The specified user could not be found.',
-              })
-              .subscribe();
-            return;
-          }
-
           if (response.userStatus === 'FORCE_PASSWORD_CHANGE') {
             this.forceChangePass(email);
             return;
           }
 
           if (response.userStatus === 'ACTIVE') {
-            // response.mfaStatus = 'PENDING' as MfaStatus;
             switch (response.mfaStatus) {
               case 'PENDING':
                 this.askForMfa(email);
@@ -203,6 +190,16 @@ export class LoginComponent {
   }
 
   private authorize(response: AuthenticateResponse) {
+    if (response.role !== 'ADMIN') {
+      this.dialogService
+        .showInfo({
+          type: 'error',
+          title: 'Error',
+          text: 'The specified user could not be found.',
+        })
+        .subscribe();
+      return;
+    }
     this.authService.saveToken(response.accessToken, response.refreshToken);
     this.userService.updateCurrentUser();
   }
