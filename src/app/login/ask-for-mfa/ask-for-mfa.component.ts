@@ -106,6 +106,6 @@ export class AskForMfaComponent implements OnInit {
   }
 
   private goToMfaConnect(mfaQR: string) {
-    this.router.navigateByUrl('/auth/mfa-connect', { state: { mfaQR } });
+    this.router.navigateByUrl('/login/mfa-connect', { state: { mfaQR } });
   }
 }

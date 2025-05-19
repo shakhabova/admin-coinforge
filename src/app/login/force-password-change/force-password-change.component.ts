@@ -58,7 +58,7 @@ export class ForcePasswordChangeComponent {
         this.formGroup.getRawValue().repeatPassword,
       )
       .subscribe((response) => {
-        this.router.navigateByUrl('/auth/mfa-connect', {
+        this.router.navigateByUrl('/login/mfa-connect', {
           state: { mfaQR: response.data, email: this.email },
         });
       });
