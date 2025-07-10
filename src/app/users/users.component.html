@@ -32,8 +32,8 @@
       </tr>
     </thead>
 
-    <tbody tuiTbody [data]="pagedUsers()">
-      @for (user of pagedUsers(); track user.id) {
+    <tbody tuiTbody [data]="users()">
+      @for (user of users(); track user.id) {
         <tr tuiTr>
           <td *tuiCell="'id'" tuiTd>
             <span class="text-m w600">{{ user.id }}</span>
