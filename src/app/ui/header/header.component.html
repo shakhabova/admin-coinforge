@@ -36,7 +36,7 @@
           <img src="/assets/icons/Dashboard.svg" class="nav-icon" />
           Dashboard
         </a>
-        <a class="nav-link">
+        <a routerLink="/wallets" routerLinkActive="active" class="nav-link">
           <img src="/assets/icons/Wallet.svg" class="nav-icon" />
           Wallets
         </a>
@@ -44,7 +44,11 @@
           <tui-icon icon="@tui.users" class="nav-icon nav-tui-icon" />
           Users
         </a>
-        <a class="nav-link">
+        <a
+          routerLink="/transactions"
+          routerLinkActive="active"
+          class="nav-link"
+        >
           <img src="/assets/icons/Transactions.svg" class="nav-icon" />
           Transactions
         </a>
@@ -67,7 +71,11 @@
           <img src="/assets/icons/Dashboard.svg" class="mobile-nav-icon" />
           Dashboard
         </a>
-        <a class="mobile-nav-link h6-heading">
+        <a
+          routerLink="/wallets"
+          routerLinkActive="active"
+          class="mobile-nav-link h6-heading"
+        >
           <img src="/assets/icons/Wallet.svg" class="mobile-nav-icon" />
           Wallets
         </a>
@@ -78,7 +86,11 @@
         >
           Users
         </a>
-        <a class="mobile-nav-link h6-heading">
+        <a
+          routerLink="/transactions"
+          routerLinkActive="active"
+          class="mobile-nav-link h6-heading"
+        >
           <img src="/assets/icons/Transactions.svg" class="mobile-nav-icon" />
           Transactions
         </a>
