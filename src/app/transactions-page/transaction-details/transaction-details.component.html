@@ -1,6 +1,6 @@
 <div class="h4-heading u-mar-bottom-32">Transaction details</div>
 
-<div class="screenshot-wrapper" [class.is-taking]="screenshotIsTaking()">
+<div class="screenshot-wrapper">
   <div class="type-icon" [class.in]="!isOutTransaction()">
     <img src="/assets/icons/arrow.svg" />
   </div>
@@ -39,9 +39,7 @@
         </div>
       }
 
-      @if (!screenshotIsTaking()) {
-        <app-copy-icon [text]="transaction().fromTrxAddress"></app-copy-icon>
-      }
+      <app-copy-icon [text]="transaction().fromTrxAddress"></app-copy-icon>
     </div>
   </div>
 
@@ -62,9 +60,7 @@
             {{ transaction().toTrxAddress }}
           </div>
         }
-        @if (!screenshotIsTaking()) {
-          <app-copy-icon [text]="transaction().toTrxAddress"></app-copy-icon>
-        }
+        <app-copy-icon [text]="transaction().toTrxAddress"></app-copy-icon>
       </div>
     </div>
   }
@@ -82,12 +78,10 @@
         </a>
       } @else {
         <div class="address text-m w600">
-          {{ transaction().transactionHash }}
+          {{ transaction().transactionHash || '-' }}
         </div>
       }
-      @if (!screenshotIsTaking()) {
-        <app-copy-icon [text]="transaction().transactionHash"></app-copy-icon>
-      }
+      <app-copy-icon [text]="transaction().transactionHash"></app-copy-icon>
     </div>
   </div>
   <div class="details-row">
@@ -113,6 +107,7 @@
     <div class="text-m w600">Transaction date</div>
     <div class="text-m w600">{{ transaction().createdAt | date }}</div>
   </div>
+  <div style="height: 32px;"></div>
 </div>
 
 <div class="actions">

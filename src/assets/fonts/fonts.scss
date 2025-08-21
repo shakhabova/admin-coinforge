@@ -1,5 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
 @font-face {
+  font-family: "NunitoSans-Variable";
+  src: url("./NunitoSans-VariableFont.ttf") format("truetype");
+  font-weight: 200 1000;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NunitoSans-Regular";
+  src: url("./NunitoSans-VariableFont.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NunitoSans-Italic-Variable";
+  src: url("./NunitoSans-Italic-VariableFont.ttf") format("truetype");
+  font-weight: 200 1000;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
   font-family: "Switzer-Variable";
   src:
     url("./Switzer-Variable.woff2") format("woff2"),

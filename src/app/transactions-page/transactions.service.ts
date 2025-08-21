@@ -34,7 +34,7 @@ export interface TransactionDto {
 	statusDescription: unknown;
 	cryptocurrency: string;
 	oprStatus: 'REJECTED' | 'CONFIRMED' | 'REFUNDED';
-	type: 'IN' | 'OUT' | 'C2F' | 'F2C' | 'C2C' | 'CSTD_OUT' | 'CSTD_IN';
+	type: 'IN' | 'OUT' | 'CST_C2F' | 'CST_F2C' | 'CST_C2C' | 'CSTD_OUT' | 'CSTD_IN' | 'WITHIN';
 	category: string;
 	commissionIsTransferred: unknown;
 	provider: unknown;

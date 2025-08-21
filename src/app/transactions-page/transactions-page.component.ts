@@ -25,6 +25,17 @@ import { ErrorDisplayComponent } from 'ui/error-display/error-display.component'
 import { CurrenciesService } from 'shared/currencies.service';
 import { TransactionDto, TransactionPageableParams, TransactionsService } from './transactions.service';
 
+export const TYPES_MAP: Record<TransactionDto['type'], string> = {
+	CSTD_IN: 'Deposit',
+	CSTD_OUT: 'Withdrawal',
+	WITHIN: 'Internal Transfer',
+	CST_F2C : 'Exchange',
+	CST_C2F : 'Exchange',
+	CST_C2C : 'Exchange',
+	IN: 'Deposit',
+	OUT: 'Withdrawal',
+};
+
 @Component({
 	selector: 'app-transactions-page',
 	imports: [
@@ -134,6 +145,11 @@ export class TransactionsPageComponent implements OnInit {
 		return this.cryptocurrenciesService.getCurrencyLinkUrl(transaction.currencyFrom);
 	}
 
+	@tuiPure
+	getTypeLabel(transaction: TransactionDto){
+		return TYPES_MAP[transaction.type] || transaction.type;
+	}
+
 	trackById(i: number): number {
 		return i;
 	}
@@ -197,7 +213,7 @@ export class TransactionsPageComponent implements OnInit {
 	private getTransactions() {
 		const params: TransactionPageableParams = {
 			size: this.pageSize,
-			sort: 'id,desc',
+			sort: 'created_at,desc',
 			page: this.page(),
 		};
 		if (this.search.value) {

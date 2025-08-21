@@ -4,12 +4,13 @@ import { TransactionDto } from 'transactions-page/transactions.service';
 
 const ICON_TYPE_MAP: Record<TransactionDto['type'], string> = {
 	IN: '@tui.arrow-down',
-	F2C: '@tui.arrow-down',
-	C2C: '@tui.arrow-down',
+	CST_F2C: '@tui.arrow-down',
+	CST_C2C: '@tui.arrow-down',
 	CSTD_IN: '@tui.arrow-down',
+	WITHIN: '@tui.arrow-right-left',
 
 	OUT: '@tui.arrow-up',
-	C2F: '@tui.arrow-up',
+	CST_C2F: '@tui.arrow-up',
 	CSTD_OUT: '@tui.arrow-up',
 };
 

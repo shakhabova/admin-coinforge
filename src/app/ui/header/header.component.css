@@ -64,6 +64,9 @@
   filter: invert(100%) sepia(0%) saturate(7488%) hue-rotate(183deg)
     brightness(95%) contrast(106%);
 }
+tui-icon.nav-icon {
+  filter: unset;
+}
 
 .nav-tui-icon {
   width: 18px;
@@ -149,6 +152,7 @@
   filter: invert(43%) sepia(8%) saturate(11%) hue-rotate(15deg) brightness(95%)
     contrast(80%);
 }
+
 
 .mobile-nav-link:hover .mobile-nav-icon,
 .mobile-nav-link.active .mobile-nav-icon {

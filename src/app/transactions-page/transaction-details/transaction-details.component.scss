@@ -1,8 +1,17 @@
+:host ::ng-deep .text-xs {
+  font-family: "NunitoSans-Regular";
+}
+
 .address {
   display: block;
-  width: 190px;
+  width: 350px;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-align: right;
+}
+
+.screenshot-wrapper {
+  background-color: white;
 }
 
 .details-row {
@@ -10,18 +19,20 @@
   align-items: center;
   justify-content: space-between;
   padding: 16px 0;
+  gap: 16px;
+}
+
+.text-m {
+  font-family: "NunitoSans-Regular";
 }
 
 .details-row > .text-m:first-child {
   color: #6f6f6f;
+  min-width: 130px;
 }
 
 .details-row + .details-row {
   border-top: 1px #eceaef dashed;
-}
-
-.actions {
-  margin-top: 32px;
 }
 
 .actions > .button {

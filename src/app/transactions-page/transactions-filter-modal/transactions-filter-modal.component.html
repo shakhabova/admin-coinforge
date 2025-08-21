@@ -6,6 +6,7 @@
       formControlName="dateFrom"
       class="u-flex-grow-1"
       tuiTextfieldSize="m"
+      [max]="formGroup.get('dateTo')?.value ?? null"
     >
       From
     </tui-input-date>
@@ -14,6 +15,7 @@
       formControlName="dateTo"
       class="u-flex-grow-1"
       tuiTextfieldSize="m"
+      [min]="formGroup.get('dateFrom')?.value ?? null"
     >
       To
     </tui-input-date>

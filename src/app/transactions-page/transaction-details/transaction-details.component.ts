@@ -3,7 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { injectContext } from '@taiga-ui/polymorpheus';
 import { type TuiDialogContext, TuiIcon } from '@taiga-ui/core';
 import { DatePipe } from '@angular/common';
-import html2canvas from 'html2canvas';
+import { domToPng } from 'modern-screenshot';
 import { TuiAlertService } from '@taiga-ui/core';
 import { TransactionStatusChipComponent } from 'transactions-page/transaction-status-chip/transaction-status-chip.component';
 import { CopyIconComponent } from 'ui/copy-icon/copy-icon.component';
@@ -29,7 +29,6 @@ export class TransactionDetailsComponent {
 	fromScanWalletUrl = signal('');
 	toScanUrl = signal('');
 	toScanWalletUrl = signal('');
-	screenshotIsTaking = signal(false);
 
 	toTrxAddressUrl = computed(() =>
 		this.toScanWalletUrl() ? this.toScanWalletUrl().replace('{address}', this.transaction().toTrxAddress) : '#',
@@ -44,6 +43,10 @@ export class TransactionDetailsComponent {
 	isOutTransaction = computed(() => ['CSTD_OUT', 'C2F', 'OUT'].includes(this.transaction().type));
 	displayToWallet = computed(() => ['CSTD_OUT', 'CSTD_IN'].includes(this.transaction().type));
 
+	currencyFrom = computed(() =>
+		this.isOutTransaction() ? this.transaction().currencyFrom : this.transaction().currencyTo,
+	);
+
 	ngOnInit() {
 		this.transaction.set(this.context.data);
 
@@ -57,9 +60,9 @@ export class TransactionDetailsComponent {
 				});
 		}
 
-		if (this.transaction().currencyFrom) {
+		if (this.currencyFrom()) {
 			this.cryptocurrenciesService
-				.getCryptoInfo(this.transaction().currencyFrom)
+				.getCryptoInfo(this.currencyFrom())
 				.pipe(takeUntilDestroyed(this.destroyRef))
 				.subscribe((info) => {
 					this.fromScanUrl.set(info?.scanUrl ?? '');
@@ -79,23 +82,28 @@ export class TransactionDetailsComponent {
 	}
 
 	async download() {
-		this.screenshotIsTaking.set(true);
 		const el = document.querySelector<HTMLElement>('.screenshot-wrapper');
 		if (!el) return;
 
-		setTimeout(async () => {
-			const canvas = await html2canvas(el);
-			const imageBase64 = canvas.toDataURL('image/png');
-			const a = document.createElement('a');
-			a.href = imageBase64;
-			a.download = 'transaction.png';
-			a.click();
-			this.screenshotIsTaking.set(false);
-			this.alerts
-				.open('Download started! Check your Files or Downloads folder.', {
-					label: 'Info',
-				})
-				.subscribe();
-		}, 0);
+		domToPng(el, {
+			filter: (elem) => elem.nodeName !== 'APP-COPY-ICON',
+			style: { padding: '20px' },
+			width: 580,
+			onCloneEachNode(cloned) {
+				const copy = cloned as HTMLDivElement;
+				if (copy.classList.contains('address')) {
+					copy.style.textOverflow = 'unset';
+					copy.style.height = 'auto';
+					copy.style.wordBreak = 'break-all';
+					copy.style.marginLeft = '8px';
+				}
+			},
+		}).then((dataUrl) => {
+			const link = document.createElement('a');
+			link.download = 'transaction.png';
+			link.href = dataUrl;
+			link.click();
+			this.alerts.open('Download started! Check your Files or Downloads folder.', { label: 'Info' }).subscribe();
+		});
 	}
 }

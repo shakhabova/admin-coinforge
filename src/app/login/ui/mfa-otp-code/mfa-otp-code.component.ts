@@ -51,7 +51,7 @@ export class MfaOtpCodeComponent {
 
   constructor() {
     explicitEffect([this.otpCode], ([otpCode]) => {
-      if (otpCode.length === 6) {
+      if (otpCode?.length === 6) {
         this.sendOtpCode();
       } else {
         this.errorMessage.set('');

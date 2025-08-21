@@ -4,33 +4,32 @@
   <div class="header-actions"></div>
 </div>
 
-<div class="filters-wrapper u-mar-bottom-24">
-  <tui-textfield
-    iconStart="@tui.search"
-    tuiTextfieldSize="m"
-    class="search-input text-m w400"
-  >
-    <input
-      [formControl]="search"
-      placeholder="Search by transaction hash..."
-      tuiTextfield
-      size="m"
-    />
-  </tui-textfield>
-
-  <button
-    tuiButton
-    appearance="secondary-grayscale"
-    type="button"
-    size="m"
-    (click)="openFilters()"
-    [class.active]="hasFilters()"
-  >
-    <tui-icon icon="@tui.filter"></tui-icon>
-  </button>
-</div>
-
 @if (transactions().length) {
+  <div class="filters-wrapper u-mar-bottom-24">
+    <tui-textfield
+      iconStart="@tui.search"
+      tuiTextfieldSize="m"
+      class="search-input text-m w400"
+    >
+      <input
+        [formControl]="search"
+        placeholder="Search by transaction hash..."
+        tuiTextfield
+        size="m"
+      />
+    </tui-textfield>
+
+    <button
+      tuiButton
+      appearance="secondary-grayscale"
+      type="button"
+      size="m"
+      (click)="openFilters()"
+      [class.active]="hasFilters()"
+    >
+      <tui-icon icon="@tui.filter"></tui-icon>
+    </button>
+  </div>
   <table tuiTable [columns]="columns">
     <thead>
       <tr tuiThGroup>
@@ -88,7 +87,7 @@
           <td *tuiCell="'type'" tuiTd>
             <span class="u-row-middle">
               <app-transaction-type-icon [type]="transaction.type" />
-              <span class="u-mar-left-12">{{ transaction.type }}</span>
+              <span class="u-mar-left-12">{{ getTypeLabel(transaction) }}</span>
             </span>
           </td>
         </tr>
@@ -117,18 +116,18 @@
       </span>
     </ng-template>
   </p-paginator>
+}
 
-  @if (displayEmpty()) {
-    <app-empty-display
-      text="No transactions in your history? Your transaction history can be made today."
-    ></app-empty-display>
-  }
+@if (displayEmpty()) {
+  <app-empty-display
+    text="No transactions."
+  ></app-empty-display>
+}
 
-  @if (displayError()) {
-    <app-error-display
-      text="Something went wrong while trying to load your transactions."
-    />
-  }
+@if (displayError()) {
+  <app-error-display
+    text="Something went wrong while trying to load your transactions."
+  />
 }
 
 @if (isLoading()) {

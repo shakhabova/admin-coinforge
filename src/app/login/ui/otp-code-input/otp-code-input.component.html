@@ -1,30 +1,45 @@
-<div class="otp-inputs" #inputsWrapper>
-  @for (val of otpCodeArray; track $index) {
-    @if ($index === 0) {
-      <input
-        tuiAutoFocus
-        [(ngModel)]="otpCodeArray[$index]"
-        (ngModelChange)="onCodeChange()"
-        maxlength="1"
-        (keydown)="onKeydown($event, $index)"
-        (keyup)="onFieldInput($event, $index)"
-        id="otp-code-input-{{ $index }}"
-        (paste)="onInputPaste(toClipboardEvent($event), $index)"
-        [class.input-error]="error()"
-        [disabled]="disabled()"
-      />
-    } @else {
-      <input
-        [(ngModel)]="otpCodeArray[$index]"
-        (ngModelChange)="onCodeChange()"
-        maxlength="1"
-        (keydown)="onKeydown($event, $index)"
-        (keyup)="onFieldInput($event, $index)"
-        id="otp-code-input-{{ $index }}"
-        (paste)="onInputPaste(toClipboardEvent($event), $index)"
-        [disabled]="disabled()"
-        [class.input-error]="error()"
-      />
+<input-otp
+  [maxLength]="length()"
+  containerClass="group flex items-center has-[:disabled]:opacity-60"
+  [(ngModel)]="otpCode"
+  #otp="inputOtp"
+  [disabled]="disabled()"
+  tuiAutoFocus
+>
+  <div class="flex justify-between w-full">
+    @for (
+      slot of otp.slots();
+      track $index;
+      let last = $last;
+      let first = $first
+    ) {
+      <div
+        [class]="
+          cn(
+            'relative w-[48px] h-[48px] text-[16px]',
+            'flex items-center justify-center',
+            'transition-all duration-300',
+            'border border-light-purple bg-neutral-100',
+            'rounded-[10px]',
+            { 'border-black': slot.isActive },
+            { 'border-system-red bg-system-light-red': error() }
+          )
+        "
+      >
+        @if (slot.char) {
+          <div>{{ slot.char }}</div>
+        } @else {
+          {{ " " }}
+        }
+
+        @if (slot.hasFakeCaret) {
+          <div
+            class="absolute pointer-events-none inset-0 flex items-center justify-center animate-caret-blink"
+          >
+            <div class="w-[2px] h-[24px] bg-black/75"></div>
+          </div>
+        }
+      </div>
     }
-  }
-</div>
+  </div>
+</input-otp>
