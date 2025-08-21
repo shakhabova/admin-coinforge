@@ -23,6 +23,14 @@ export const routes: Routes = [
           ),
         title: 'Two-Factor Authentication',
       },
+      {
+        path: 'forget-password',
+        loadComponent: () =>
+          import('../login/forget-password/forget-password.component').then(
+            (m) => m.ForgetPasswordComponent,
+          ),
+        title: 'Forget Password',
+      },
     ],
   },
 ];

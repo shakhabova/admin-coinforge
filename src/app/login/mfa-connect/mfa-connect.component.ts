@@ -25,7 +25,7 @@ export class MfaConnectComponent implements OnInit {
   protected displayBack = computed(() => !this.isMobileAppsPage());
   protected displayNext = computed(() => this.isMobileAppsPage());
 
-  mfaQR = this.router.getCurrentNavigation()?.extras.state?.['mfaQR'];
+  mfaQR = this.router.currentNavigation()?.extras.state?.['mfaQR'];
 
   ngOnInit(): void {
     if (!this.mfaQR) {
